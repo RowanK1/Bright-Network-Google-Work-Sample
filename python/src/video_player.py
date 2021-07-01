@@ -10,8 +10,8 @@ class VideoPlayer:
 
     def __init__(self):
         self._video_library = VideoLibrary()
-        self.currentlyPlaying = None
-        self.videoPaused = False
+        self.currently_playing = None
+        self.video_paused = False
         self.playlists = []
 
     def number_of_videos(self):
@@ -22,14 +22,14 @@ class VideoPlayer:
         """Returns all videos."""
         print("Here's a list of all available videos:")
         # print(self._video_library.get_all_videos()[0].tags)
-        videoProperties = []
+        video_properties = []
         for video in self._video_library.get_all_videos():
             if video.flag != None:
-                videoProperties.append("  "+video.title + " (" + video.video_id +") ["+ " ".join(video.tags) + "] - FLAGGED (reason: " + video.flag + ")")
+                video_properties.append("  "+video.title + " (" + video.video_id +") ["+ " ".join(video.tags) + "] - FLAGGED (reason: " + video.flag + ")")
                 continue
-            videoProperties.append("  "+video.title + " (" + video.video_id +") ["+ " ".join(video.tags) + "]")
-        videoProperties.sort()
-        for i in videoProperties:
+            video_properties.append("  "+video.title + " (" + video.video_id +") ["+ " ".join(video.tags) + "]")
+        video_properties.sort()
+        for i in video_properties:
             print(i)
 
 
@@ -45,20 +45,20 @@ class VideoPlayer:
         if video.flag != None:
             print("Cannot play video: Video is currently flagged (reason: " + video.flag + ")")
             return
-        if self.currentlyPlaying != None:
-            print("Stopping video: " + self.currentlyPlaying.title)
-        self.videoPaused = False
-        self.currentlyPlaying = self._video_library.get_video(video_id)
-        print("Playing video: " + self.currentlyPlaying.title)
+        if self.currently_playing != None:
+            print("Stopping video: " + self.currently_playing.title)
+        self.video_paused = False
+        self.currently_playing = self._video_library.get_video(video_id)
+        print("Playing video: " + self.currently_playing.title)
 
 
     def stop_video(self):
         """Stops the current video."""
-        if self.currentlyPlaying == None:
+        if self.currently_playing == None:
             print("Cannot stop video: No video is currently playing")     
         else:
-            print("Stopping video: " + self.currentlyPlaying.title)
-            self.currentlyPlaying = None
+            print("Stopping video: " + self.currently_playing.title)
+            self.currently_playing = None
 
 
 
@@ -78,33 +78,33 @@ class VideoPlayer:
 
     def pause_video(self):
         """Pauses the current video."""
-        if self.currentlyPlaying == None:
+        if self.currently_playing == None:
             print("Cannot pause video: No video is currently playing")
-        elif self.videoPaused == True:
-            print("Video already paused: "+self.currentlyPlaying.title)
+        elif self.video_paused == True:
+            print("Video already paused: "+self.currently_playing.title)
         else:
-            self.videoPaused = True
-            print("Pausing video: " + self.currentlyPlaying.title)
+            self.video_paused = True
+            print("Pausing video: " + self.currently_playing.title)
 
 
 
     def continue_video(self):
         """Resumes playing the current video."""
-        if self.currentlyPlaying == None:
+        if self.currently_playing == None:
             print("Cannot continue video: No video is currently playing")
-        elif self.videoPaused == False:
+        elif self.video_paused == False:
             print("Cannot continue video: Video is not paused")
         else:
-            self.videoPaused = False
-            print("Continuing video: "+ self.currentlyPlaying.title)
+            self.video_paused = False
+            print("Continuing video: "+ self.currently_playing.title)
 
     def show_playing(self):
         """Displays video currently playing."""
-        if self.currentlyPlaying == None:
+        if self.currently_playing == None:
             print("No video is currently playing")
             return
-        message = "Currently playing: " + self.currentlyPlaying.title + " (" + self.currentlyPlaying.video_id +") ["+ " ".join(self.currentlyPlaying.tags) + "]"
-        if self.videoPaused:
+        message = "Currently playing: " + self.currently_playing.title + " (" + self.currently_playing.video_id +") ["+ " ".join(self.currently_playing.tags) + "]"
+        if self.video_paused:
             message += " - PAUSED"
         print(message)
 
@@ -328,7 +328,7 @@ class VideoPlayer:
         if video.flag != None:
             print("Cannot flag video: Video is already flagged")
             return
-        if self.currentlyPlaying != None and self.currentlyPlaying == video:
+        if self.currently_playing != None and self.currently_playing == video:
             self.stop_video()
 
         if len(flag_reason) == 0:
